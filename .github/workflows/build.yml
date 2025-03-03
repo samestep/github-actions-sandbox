@@ -1,0 +1,16 @@
+name: Build
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: git checkout -b "ci/$GITHUB_REF"
+      - if: github.event_name == 'pull_request'
+        run: git remote set-url origin ${{ github.event.pull_request.head.repo.git_url }}
+      - run: git push -f origin HEAD

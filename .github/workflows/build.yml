@@ -13,4 +13,7 @@ jobs:
       - run: git checkout -b "ci/$GITHUB_REF"
       - if: github.event_name == 'pull_request'
         run: git remote set-url origin ${{ github.event.pull_request.head.repo.git_url }}
+      - run: echo ${{ github.run_id }} > run_id.txt
+      - run: git add run_id.txt
+      - run: git commit -m 'Workflow run ${{ github.run_id }}'
       - run: git push -f origin HEAD
